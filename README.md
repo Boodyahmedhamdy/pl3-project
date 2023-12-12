@@ -4,6 +4,8 @@
 
 This is a library management system implemented as a console application in Scala. It leverages the Actor model for concurrency and message passing, providing a robust and efficient platform for managing libraries.
 
+> for exact requirments. checkout [Requirments.md](Requirments.md) file
+
 ### Features
 
 * **Book Management:**
