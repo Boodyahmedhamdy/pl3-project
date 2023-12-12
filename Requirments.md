@@ -1,9 +1,3 @@
-## Main Actors
-1. user
-2. admin
-
-
-- [Main Actors](#main-actors)
 - [User Requiremnts](#user-requiremnts)
 - [Admin Requirments](#admin-requirments)
 - [System](#system)
@@ -16,7 +10,6 @@
 3. select due date
 4. return book
 5. log in to their account
-6. 
 
 
 ## Admin Requirments
