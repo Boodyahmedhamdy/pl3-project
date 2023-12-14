@@ -1,4 +1,9 @@
 package datalayer.entites
 
 
-case class BookEntity(id: String, title: String, author: String)
+case class BookEntity(id: Int,
+                      title: String,
+                      author: String,
+                      borrowedBy: Option[Int] = None)
+
+
