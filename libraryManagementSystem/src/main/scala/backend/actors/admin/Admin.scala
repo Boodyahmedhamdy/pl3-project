@@ -1,16 +1,13 @@
 package backend.actors.admin
 
-import akka.actor.TypedActor.dispatcher
 import akka.actor.{Actor, Props}
 import datalayer.entites.BookEntity
-import datalayer.repositories.BookRepository
-
-import scala.util.{Failure, Success}
+import datalayer.repositories.BookRepositoryImpl
 
 // Define the Admin actor behavior
 class AdminActor extends Actor {
   private var books: Map[String, BookEntity] = Map.empty
-  private val bookRepo = BookRepository
+  private val bookRepo = BookRepositoryImpl
 
   override def preStart(): Unit = {
     // Initialize any resources here (e.g., database connection)
@@ -23,8 +20,10 @@ class AdminActor extends Actor {
 
   def receive: Receive = {
     case CreateBook(title, author) =>
-        bookRepo.createBook(title, author)
-      println(s"create book called with title: $title, author: $author")
+
+
+        bookRepo.createBook(title = title, author = author)
+//      println(s"create book called with title: $title, author: $author")
       sender() ! BookCreated("id")
 
 

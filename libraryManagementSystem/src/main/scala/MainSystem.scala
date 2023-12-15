@@ -1,5 +1,6 @@
 import akka.actor.ActorSystem
 import backend.actors.admin.{AdminActor, CreateBook, ShowBooks, UpdateBook}
+import slick.dbio.DBIOAction
 
 object MainSystem extends App {
 
@@ -8,11 +9,13 @@ object MainSystem extends App {
   val system = ActorSystem("LibrarySystem")
   val adminActor = system.actorOf(AdminActor.props(), "admin")
 
-//  adminActor ! CreateBook("The Hobbit", "J.R.R. Tolkien")
+  adminActor ! CreateBook("The Hobbit", "J.R.R. Tolkien")
 ////  adminActor ! UpdateBook("1", newTitle = Some("The Lord of the Rings"))
-  adminActor ! ShowBooks
+//  adminActor ! ShowBooks
 
   // ... other interactions with the Admin actor ...
+
+
 
   system.terminate()
 
