@@ -1,2 +1,4 @@
-[debug] downloaded https://repo1.maven.org/maven2/com/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom
-[debug] downloaded https://repo1.maven.org/maven2/com/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom.sha1
+[debug] downloaded https://repo1.maven.org/maven2/com/github/tototoshi/scala-csv_2.13/1.3.10/scala-csv_2.13-1.3.10.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/github/tototoshi/scala-csv_2.13/1.3.10/scala-csv_2.13-1.3.10.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/github/tototoshi/scala-csv_2.13/1.3.10/scala-csv_2.13-1.3.10-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/github/tototoshi/scala-csv_2.13/1.3.10/scala-csv_2.13-1.3.10-javadoc.jar

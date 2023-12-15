@@ -1,8 +1,10 @@
 package backend.actors.admin
 
 import akka.actor.{Actor, Props}
+import backend.actors.EventLogger
 import datalayer.entites.BookEntity
 import datalayer.repositories.BookRepositoryImpl
+import utils.reports.ReportMaker
 
 // Define the Admin actor behavior
 class AdminActor extends Actor {
@@ -20,49 +22,38 @@ class AdminActor extends Actor {
 
   def receive: Receive = {
     case CreateBook(title, author) =>
-
-
-        bookRepo.createBook(title = title, author = author)
-//      println(s"create book called with title: $title, author: $author")
+      bookRepo.createBook(title = title, author = author)
+      EventLogger.addEventToHistory("Admin-Create-Book", eventMaker = "Admin")
       sender() ! BookCreated("id")
 
+    case GetBookById(id) =>
+      val theBook = bookRepo.getBookById(id)
+      println(s"found book with id $id is $theBook")
+      EventLogger.addEventToHistory("Admin-Gets-Book", eventMaker = "Admin")
+      sender() ! bookRepo.getBookById(id)
 
-    case UpdateBook(id, newTitle, newAuthor) =>
-      books.get(id) match {
-        case Some(book) =>
-          val updatedBook = book.copy(title = newTitle.getOrElse(book.title), author = newAuthor.getOrElse(book.author))
-          books += (id -> updatedBook)
-          println(books)
-          sender() ! BookUpdated(id)
-        case None =>
-          sender() ! BookNotFound(id)
-      }
-
-
-//    case DeleteBook(id) =>
-//      books.remove(id) match {
-//        case Some(book) =>
-////          sender() ! BookDeleted(book)
-//        case None =>
-//          sender() ! BookNotFound(id)
-//      }
-
+    case DeleteBook(id) =>
+      bookRepo.deleteBookById(id.toInt)
+      println(s"book with id $id was deleted successfully")
+      EventLogger.addEventToHistory("Admin-Deletes-Book", eventMaker = "Admin")
+      sender() ! DeleteBook(id)
 
     case ShowBooks =>
-      val result =
-        bookRepo.showBooks().value
+      val books = bookRepo.getAllBooks()
+      println("------------------------------\nAll Books")
+        for (elem <- books) {
+          println(s"${elem.id} - ${elem.title} - ${elem.author} - ${elem.borrowedBy}")
+        }
+      println("-----------------------------")
+      BooksList(books).responseMessage
+      EventLogger.addEventToHistory("Admin-Show-Books", eventMaker = "Admin")
+      sender() ! BooksList(books)
 
-      sender() ! BooksList(books.values.toList)
-
-
-    case ShowBookByName(title) =>
-      val matchingBooks = books.values.filter(_.title == title)
-      sender() ! BooksByName(matchingBooks.toList)
-    case _ => // Handle any unexpected messages
-      // log.warning("Unhandled message: {}", message)
+    case GenerateReportFromEventsLog() =>
+      ReportMaker.generateReport()
   }
 
-  private def generateId(): String = ""// Implement your ID generation logic here
+
 }
 
 object AdminActor {

@@ -1,6 +1,10 @@
 package datalayer.repositories
 import datalayer.entites.UserEntity
 
+import java.io.File
+import scala.io.Source
+
+
 object UserRepositoryImpl extends UserRepository {
 
   override def createUser(id: Int, name: String, roleId: Int): Unit = {
