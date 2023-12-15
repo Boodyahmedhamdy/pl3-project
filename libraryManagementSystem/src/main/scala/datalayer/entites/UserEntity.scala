@@ -1,5 +1,10 @@
 package datalayer.entites
 
+import utils.data.Utils
 
-// roleId = 2 is normal user
-case class UserEntity(id: Int = 0, name: String = "username", roleId: Int = 2)
+
+
+case class UserEntity(
+                       id: Int = Utils.generateId(),
+                       name: String, role: String,
+                       bookIds: List[Int])

@@ -27,11 +27,15 @@ object ReportMaker {
     println(
       """
         |System Events Report
+        |===========================
         |""".stripMargin)
 
     // Get total row count
-    val totalRowCount = count(filePath)
-    println(s"Total number of rows in the file: $totalRowCount")
+    val totalEventsCount = count(filePath)
+    println(s"Total number of rows in the file: $totalEventsCount")
+
+    val totalBooksCount = count("books.csv")
+    println(s"Total number of Books in the System: $totalBooksCount")
 
     // Get count of unique values in a specific column
     for(columnName <- columnNames) {
