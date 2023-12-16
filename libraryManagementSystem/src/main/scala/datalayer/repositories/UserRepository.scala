@@ -15,8 +15,6 @@ trait UserRepository {
 
   def getUserById(id: Int): UserEntity
 
-  def getUserBorrowedBooksById(id: Int): List[BookEntity]
-
   def userBorrowBook(userId: Int, bookId: Int)
 
   def userReturnBook(userId: Int, bookId: Int)

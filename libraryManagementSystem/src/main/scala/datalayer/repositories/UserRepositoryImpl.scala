@@ -31,10 +31,6 @@ object UserRepositoryImpl extends UserRepository {
     filteredBooks.head
   }
 
-  override def getUserBorrowedBooksById(id: Int): List[BookEntity] = {
-    ???
-  }
-
   override def userBorrowBook(userId: Int, bookId: Int): Unit = {
     val allUsers = getAllUsers()
     val updatedUsers = allUsers.map { user =>
