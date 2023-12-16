@@ -2,14 +2,13 @@ package backend.actors.admin
 
 import akka.actor.{Actor, Props}
 import backend.actors.EventLogger
-import datalayer.entites.BookEntity
-import datalayer.repositories.BookRepositoryImpl
+import datalayer.repositories.{BookRepositoryImpl, UserRepositoryImpl}
 import utils.reports.ReportMaker
 
 // Define the Admin actor behavior
 class AdminActor extends Actor {
-  private var books: Map[String, BookEntity] = Map.empty
   private val bookRepo = BookRepositoryImpl
+  private val userRepo = UserRepositoryImpl
 
   override def preStart(): Unit = {
     // Initialize any resources here (e.g., database connection)
@@ -21,6 +20,7 @@ class AdminActor extends Actor {
   }
 
   def receive: Receive = {
+
     case CreateBook(title, author) =>
       bookRepo.createBook(title = title, author = author)
       EventLogger.addEventToHistory("Admin-Create-Book", eventMaker = "Admin")
@@ -51,6 +51,39 @@ class AdminActor extends Actor {
 
     case GenerateReportFromEventsLog() =>
       ReportMaker.generateReport()
+
+    case CreateUser(userName: String) =>
+      userRepo.createUser(name = userName)
+      EventLogger.addEventToHistory("Admin-Creates-User", eventMaker = "Admin")
+      println(s"Created new User with name $userName")
+      sender() ! UserCreated(userName: String)
+
+    case DeleteUserById(userId: Int) =>
+      userRepo.deleteUser(userId)
+      EventLogger.addEventToHistory("Admin-Deletes-User", eventMaker = "Admin")
+      println(s"Deleted User with id ${userId}")
+      sender() ! UserDeleted(userId)
+
+    case ShowAllUsers() =>
+      val users = userRepo.getAllUsers()
+      println(
+        """
+          |========================
+          |     All Users
+          |========================
+          |""".stripMargin)
+      users.foreach(user => {
+        println(s"${user.id} - ${user.name} - ${user.role} - ${user.bookIds}")
+      })
+      println("==============================")
+      EventLogger.addEventToHistory("Admin-Gets-All-Users", eventMaker = "Admin")
+
+    case GetUserById(userId) =>
+      val user = userRepo.getUserById(userId)
+      println(s"you got user ${user.name} with id ${user.id}")
+      EventLogger.addEventToHistory("Admin-Gets-User", eventMaker = "Admin")
+
+
   }
 
 

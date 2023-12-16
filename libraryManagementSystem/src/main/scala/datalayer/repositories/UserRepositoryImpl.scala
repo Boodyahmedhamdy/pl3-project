@@ -1,6 +1,7 @@
 package datalayer.repositories
 import com.github.tototoshi.csv.{CSVReader, CSVWriter}
 import datalayer.entites.{BookEntity, UserEntity}
+import utils.data.Utils
 
 import java.io.File
 import scala.io.Source
@@ -24,7 +25,10 @@ object UserRepositoryImpl extends UserRepository {
 
 
   override def getUserById(id: Int): UserEntity = {
-      ???
+    val allUsers = getAllUsers()
+    val filteredBooks = allUsers.filter(_.id == id)
+
+    filteredBooks.head
   }
 
   override def getUserBorrowedBooksById(id: Int): List[BookEntity] = {
@@ -43,7 +47,10 @@ object UserRepositoryImpl extends UserRepository {
     }
   }
     def userReturnBook(userId: Int, bookId: Int): Unit = {
-    ???
+      val user = getUserById(userId)
+      user.bookIds = user.bookIds.appendedAll(List(bookId))
+      deleteUser(userId)
+      createUser(userId, user.name, bookIds = user.bookIds)
   }
 
     def createUser(id: Int, name: String, role: String, bookIds: List[Int]): Unit = {
@@ -100,7 +107,7 @@ object UserRepositoryImpl extends UserRepository {
       val id = line.head.toInt
       val name = line(1)
       val role = line(2)
-      val bookIds = if (line.length > 3) line(3).split(",").map(_.toInt).toList else List.empty[Int]
+      val bookIds = List.empty
       UserEntity(id, name, role, bookIds)
     }
   }

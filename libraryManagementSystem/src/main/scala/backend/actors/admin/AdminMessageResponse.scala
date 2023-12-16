@@ -13,3 +13,9 @@ case class BookDeleted(book: BookEntity) extends AdminMessageResponse
 case class BookNotFound(id: String) extends AdminMessageResponse
 case class BooksList(books: List[BookEntity]) extends AdminMessageResponse
 case class BooksByName(books: List[BookEntity]) extends AdminMessageResponse
+
+case class UserCreated(name: String)
+
+case class UserDeleted(id: Int)
+
+

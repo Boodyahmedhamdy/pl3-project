@@ -13,3 +13,15 @@ case object ShowBooks extends AdminMessage
 case class GetBookById(id: Int) extends AdminMessage
 
 case class GenerateReportFromEventsLog() extends AdminMessage
+
+case class CreateUser(userName: String)
+
+case class DeleteUserById(userId: Int)
+
+case class ShowAllUsers()
+
+case class GetUserById(userId: Int)
+
+
+
+
